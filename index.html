@@ -235,7 +235,15 @@
 
                 $('#dataList').append(addon_html);
               } 
-            });                       
+            });
+
+            $('#exampleModal').on('hide.bs.modal', function (e) {
+                if(location.hash=='#exampleModal')window.history.back();
+            });
+
+            $(window).on('popstate', function (event) {  //pressed back button
+                if(event.state!==null)$('.modal').modal('hide');
+            });
           });          
         </script>
       </div>
@@ -455,16 +463,6 @@
     drawSubChart(eduScore, avgEduScore, "학군총점", "지역평균", "#f97f95", "#9f9f9f", "eduChart")
     drawSubChart(eduScore, avgEduScore, "인구총점", "일자리총점", "#f97f95", "#f97f95", "regionChart")
   }
-
-  $('#exampleModal').on('show.bs.modal', function(e) {
-        window.location.hash = "exampleModal";
-    });
-
-  $(window).on('hashchange', function (event) {
-      if(window.location.hash != "#exampleModal") {
-          $('#exampleModal').modal('hide');
-      }
-  });
 
   function drawChart(aptValue, livingScore, transportScore, infraScore, eduScore){
       var ctx = document.getElementById("valueChart").getContext('2d');
