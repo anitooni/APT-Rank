@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>아파트 랭킹 - 우리 아파트 입지는 몇 등일까?</title>
+  <meta property="og:type" content="website"> 
+  <meta property="og:title" content="AI가 판단한 대한민국 아파트 입지 랭킹">
+  <meta property="og:description" content="AI가 판정하는 대한민국 아파트 입지 랭킹">
+  <meta property="og:image" content="https://anitooni.github.io/APT-Rank/apt-rank.png">
+  <meta property="og:url" content="https://anitooni.github.io/APT-Rank/">
+
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">  
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>  
+</head>
+<style>
+  body{
+    -ms-overflow-style: none;
+  }
+  ::-webkit-scrollbar { display: none; }
+
+  #titleBar{
+    position: fixed;
+    display: table-cell;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 51px;
+    border-bottom: 1px solid gray;    
+    text-align: center;
+    line-height: 50px;
+    background-color: #ff3d38;
+  }
+  #title{
+    font-family: Roboto;
+    color: whitesmoke;
+    font-size: 1.25em;
+    font-weight: 600;
+  }  
+  #dataList{
+    display:block;
+    width: 100%;
+    margin-top: 100px;
+  }
+  .listBox{
+    display: grid;
+    grid-template-columns: 60px 1fr 80px;
+    align-items: center;
+    border-bottom: 1px solid gray;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+  }
+  .value_score{
+    text-align: right;
+    justify-content: center;
+    padding-right: 8px;
+    font-size: 0.9em;
+    font-weight: 600;
+  }
+  .rank{
+    text-align: center;
+    font-size: 0.85em;
+  }
+  .apt_address{
+    font-size: 0.7em;
+    color: gray;
+  }
+  .apt_name{
+    font-size: 0.85em;
+    font-weight: bold;
+  }
+
+  #selections{        
+    display: grid;    
+    grid-template-columns: 1.7fr 1fr;
+    align-content: center;
+    justify-content: center;
+    padding-top: 10px;
+    padding-bottom: 10px;    
+    background-color: #ff3d38;
+    position: fixed;
+    top: 50px;
+    left: 0;
+    right: 0;    
+  }
+  #region, #month{
+    width: 90%;
+    height: 2em;
+    font-size: 0.8em;
+    margin-right: 2px;
+    border: none;    
+  }  
+  #region_selection, #month_selection{
+    text-align: center;
+  }
+
+  .modal-body{
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;    
+  }
+  .popRank{
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: 600;    
+  }
+  .popupTitle{    
+    font-weight: 900;    
+  }
+  .popupSubtitle{
+    font-size: 0.7em;
+    color: gray;
+  }
+  .popSubTable{
+    display: grid;
+    height: 1.8em;
+    grid-template-columns: 1.5fr 1fr;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-bottom: solid 1px rgb(216, 216, 216);
+  }
+  .popTitle{
+    font-weight: 600;
+  }
+  .popContent{
+    font-size: 0.9em;
+    text-align: left;
+  }
+  .popResult{
+    font-size: 0.9em;
+    font-weight: 600;
+    text-align: right;
+  }
+  .card{
+    margin-bottom: 10px;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  }  
+
+  @media screen and (min-width: 800px){
+    #modal .modalWindow{      
+      width: 700px;
+    }
+    #close{
+      width: 700px;
+    }
+    #centerBox{
+      width: 100%;
+      display: grid;
+      grid-template-columns: 800px;
+      justify-content:center;
+    }
+    #titleBar{
+      margin: 0 auto;
+      width: 800px;
+    }
+    #selections{
+      margin: 0 auto;
+      width: 800px;
+    }    
+  }  
+</style>
+
+<body>
+  <div id="container">
+    <div id="centerBox">
+      <div id="titleBar">
+        <div id="title">아파트 랭킹</div>
+      </div>      
+
+      <div id="selections">
+        <div id="region_selection">          
+          <select id="region" onChange="updateRegion()">
+            <optgroup value="Seoul" label="서울시">
+                <option value="1168000000_Seoul_Gangnam">서울시 강남구</option>
+                <option value="1165000000_Seoul_Seocho">서울시 서초구</option>
+                <option value="1171000000_Seoul_Songpa">서울시 송파구</option>
+            </optgroup>
+            <optgroup value="Gyeonggi" label="경기도">
+                <option value="4146500000_Gyeonggi_Yongin_Suji">경기도 용인시 수지구</option>
+                <option value="4146300000_Gyeonggi_Yongin_Giheung">경기도 용인시 기흥구</option>
+                <option value="4146100000_Gyeonggi_Yongin_Cheoin">경기도 용인시 처인구</option>
+            </optgroup>
+          </select>
+        </div>
+        <div id="month_selection">
+          <select id="month" onChange="updateMonth()">            
+            <option value="202201">2022년 01월</option>            
+          </select>          
+        </div>
+      </div>
+
+      <div id="dataList">        
+        <script>
+          var itemNum = 0;
+          var aptData = "";
+          var prevValue = 0;          
+
+          $(document).ready(function(){
+            $.getJSON("https://anitooni.github.io/APT-Rank/202201/1168000000_Seoul_Gangnam.json", function(json) {
+              //console.log(json);
+              aptData = json;
+              itemNum = json.data.length;              
+
+              for(var i = 0 ; i < itemNum ; i++){                
+                var aptName = aptData.data[i]["아파트명"]
+                var apt_m = aptData.data[i]["전용면적(m2)"]
+                var apt_p = aptData.data[i]["전용면적(평)"]
+                var aptAddress = aptData.data[i]["법정동주소"]
+                var aptValue = Math.round( aptData.data[i]["가치 총점"] * 100 ) / 100;
+                var rank = aptData.data[i]["rank"].toFixed()
+
+                valueSum += aptData.data[i]["가치 총점"]
+                livingSum += aptData.data[i]["주거총점"]
+                transportSum += aptData.data[i]["교통총점"]
+                infraSum += aptData.data[i]["인프라총점"]
+                eduSum += aptData.data[i]["학군총점"]
+                
+                //var addon_html = "<div class='listBox' onClick='showDetail(" + i + ")'>";
+                var addon_html = "<div class='listBox' data-bs-toggle='modal' data-bs-target='#exampleModal' id='myModal' onClick='showDetail(" + i + ")'>";
+                addon_html += "<div class='rank'>" + rank + "위</div>";
+                addon_html += "<div class='content'>";
+                //addon_html += "<div class='apt_name'>" + aptName + " " + apt_p + "(" + apt_m + ")</div>";
+                addon_html += "<div class='apt_name'>" + aptName + "</div>";
+                addon_html += "<div class='apt_address'>" + aptAddress + "</div>";
+                addon_html += "</div>";
+                addon_html += "<div class='value_score'>" + aptValue + "점</div>"
+                addon_html += "</div>"
+
+                $('#dataList').append(addon_html);
+              } 
+            });                       
+          });          
+        </script>
+      </div>
+    </div>
+  </div>
+
+  <!-- Vertically centered scrollable modal -->
+  <!-- Button trigger modal -->
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id='aptDetail'></div>        
+      </div>
+    </div>
+  </div>  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.0/dist/chart.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+</body>
+
+<script>
+  var selectedMonth = document.getElementById("month").value
+  var selectedRegion = document.getElementById("region").value
+  var regionName = $("#region option:selected").text()
+  var valueSum = 0;
+  var livingSum = 0;
+  var transportSum = 0;
+  var infraSum = 0;
+  var eduSum = 0;  
+
+  function updateMonth(){
+    var selection = document.getElementById("month")
+    selectedMonth = selection.value
+    updateTable(selectedMonth, selectedRegion)
+    regionName = $("#region option:selected").text()
+  }
+  function updateRegion(){
+    var selection = document.getElementById("region")
+    selectedRegion = selection.value
+    updateTable(selectedMonth, selectedRegion)
+    regionName = $("#region option:selected").text()
+    //console.log(selectedRegion);
+  }
+
+  function updateTable(month, region){
+    $('html').scrollTop(0)
+    url = "https://anitooni.github.io/APT-Rank/" + month + "/" + region + ".json"
+    //console.log(url)
+    $('#dataList').html("");
+
+    $.getJSON(url, function(json) {
+        //console.log(json);
+        aptData = json;
+        itemNum = json.data.length;
+        valueSum = 0;
+        livingSum = 0;
+        transportSum = 0;
+        infraSum = 0;
+        eduSum = 0;
+
+        for(var i = 0 ; i < itemNum ; i++){                
+          var aptName = aptData.data[i]["아파트명"]
+          var apt_m = aptData.data[i]["전용면적(m2)"]
+          var apt_p = aptData.data[i]["전용면적(평)"]
+          var aptAddress = aptData.data[i]["법정동주소"]
+          var aptValue = Math.round( aptData.data[i]["가치 총점"] * 100 ) / 100;
+          var rank = aptData.data[i]["rank"].toFixed()
+
+          valueSum += aptData.data[i]["가치 총점"]
+          livingSum += aptData.data[i]["주거총점"]
+          transportSum += aptData.data[i]["교통총점"]
+          infraSum += aptData.data[i]["인프라총점"]
+          eduSum += aptData.data[i]["학군총점"]
+
+          //console.log(valueSum)
+
+          var addon_html = "<div class='listBox' data-bs-toggle='modal' data-bs-target='#exampleModal' id='myModal' onClick='showDetail(" + i + ")'>";
+          addon_html += "<div class='rank'>" + rank + "위</div>";
+          addon_html += "<div class='content'>";
+          //addon_html += "<div class='apt_name'>" + aptName + " " + apt_p + "(" + apt_m + ")</div>";
+          addon_html += "<div class='apt_name'>" + aptName + "</div>";
+          addon_html += "<div class='apt_address'>" + aptAddress + "</div>";
+          addon_html += "</div>";
+          addon_html += "<div class='value_score'>" + aptValue + "점</div>"
+          addon_html += "</div>"
+
+          $('#dataList').append(addon_html);
+        }
+    })
+  }
+
+  function showDetail(index){
+    titleHtml = "";
+    detailHtml = "";    
+    var aptRank = aptData.data[index]["rank"] + "/" + aptData.data[itemNum-1]["rank"] + "위"
+    var aptName = aptData.data[index]["아파트명"]
+    var apt_m = aptData.data[index]["전용면적(m2)"]
+    var apt_p = aptData.data[index]["전용면적(평)"]
+    var aptAddress = aptData.data[index]["법정동주소"]
+    var aptValue = Math.round( aptData.data[index]["가치 총점"] * 100 ) / 100;
+    var aptYear = aptData.data[index]["준공년월"] + " (" + aptData.data[index]["준공년차"] + "년차)"
+    var nearestStation = aptData.data[index]["가까운역이름"] + "역" + "(" + aptData.data[index]["가까운역거리"] + "m)"
+    var stationArea = aptData.data[index]["역세권여부"]
+    var stationPoint_30m = aptData.data[index]["30분이내주요거점역"] + "개"
+    var stationPoint_1h = aptData.data[index]["1시간이내주요거점역"] + "개"
+    var departmentStore_3km = aptData.data[index]["3km이내백화점수"] + "개"
+    var OutletMall_5km = aptData.data[index]["5km이내아울렛몰수"] + "개"
+    var bigMart_1km = aptData.data[index]["1km이내대형먀트수"] + "개"
+    var bank_500m = aptData.data[index]["500m이내은행수"] + "개"
+    var hospital_500m = aptData.data[index]["500m이내병원수"] + "개"
+    var bigHospital_5km = aptData.data[index]["5km이내대형병원수"] + "개"
+    var park_500m = aptData.data[index]["500m이내공원수"] + "개"
+    var harmful_3km = aptData.data[index]["3km이내혐오시설수"] + "개"
+    var pSchool_edu = aptData.data[index]["초등학교학업성취도"] + "%"
+    var mSchool_edu = aptData.data[index]["중학교학업성취도"] + "%"
+    var livingScore = aptData.data[index]["주거총점"] + "점"
+    var transportScore = aptData.data[index]["교통총점"]
+    var infraScore = aptData.data[index]["인프라총점"]
+    var eduScore = aptData.data[index]["학군총점"]
+    var livingScore = aptData.data[index]["주거총점"]
+    var populationScore = Math.round( aptData.data[index]["인구총점"] * 100 ) / 100
+    var jobScore = Math.round( aptData.data[index]["일자리총점"] * 100 ) / 100
+
+    //Title    
+    titleHtml += "<div class='popupTitle'>" + aptName + "</div>";    
+    titleHtml += "<div class='popupSubtitle'>" + aptYear + "</div>";
+    titleHtml += "<div class='popupSubtitle'>" + aptAddress + "</div>";    
+
+    //총점,순위
+    detailHtml += "<div class='card'>";
+    detailHtml += "<div class='card-header'>";
+    detailHtml += "<div class='popRank'><i class='fas fa-trophy'></i> " + aptRank + "</div>";
+    detailHtml += "</div>";
+    detailHtml += "<div class='card-body'>";    
+    detailHtml += "<div class='graph' style='height: 200px'> <canvas id='valueChart'></canvas></div>"
+    detailHtml += "</div></div>"
+
+    detailHtml += "<div class='card'>";
+    detailHtml += "<div class='card-header'>";
+    detailHtml += "<div class='popTitle'><i class='fas fa-home'></i>&nbsp주거</div>"
+    detailHtml += "</div>";
+    detailHtml += "<div class='card-body'>";    
+    detailHtml += "<div class='graph' style='height: 120px'> <canvas id='livingChart'></canvas></div>"
+    detailHtml += "</div></div>"
+    avgLivingScore = Math.round( livingSum/itemNum * 100 ) / 100
+
+    //교통
+    detailHtml += "<div class='card'>";
+    detailHtml += "<div class='card-header'>";
+    detailHtml += "<div class='popTitle'><i class='fas fa-bus'></i>&nbsp교통</div>"
+    detailHtml += "</div>";
+    detailHtml += "<div class='card-body'>";
+    detailHtml += "<div id='popTransport'>"    
+    detailHtml += "<div class='graph' style='height: 120px'> <canvas id='transportChart'></canvas></div>"
+    detailHtml += "<div class='popTable'>"
+    detailHtml += "<div class='popSubTable'><div class='popContent'>" + "가장 가까운 역" + "</div>" + "<div class='popResult'>" + nearestStation + "</div></div>";
+    detailHtml += "<div class='popSubTable'><div class='popContent'>" + "30분 이내 도착 가능 주요역" + "</div>" + "<div class='popResult'>" + stationPoint_30m + "</div></div>";
+    detailHtml += "<div class='popSubTable'><div class='popContent'>" + "1시간 이내 도착 가능 주요역" + "</div>" + "<div class='popResult'>" + stationPoint_1h + "</div></div>";    
+    detailHtml += "</div></div></div></div>"
+    avgTransportScore = Math.round( transportSum/itemNum * 100 ) / 100
+
+    //인프라
+    detailHtml += "<div class='card'>";
+    detailHtml += "<div class='card-header'>";
+    detailHtml += "<div class='popTitle'><i class='fas fa-hospital-user'></i>&nbsp인프라</div>"
+    detailHtml += "</div>";
+    detailHtml += "<div class='card-body'>";
+    detailHtml += "<div id='popInfra'>"    
+    detailHtml += "<div class='graph' style='height: 120px'> <canvas id='infraChart'></canvas></div>"
+    detailHtml += "<div class='popTable'>"
+    detailHtml += "<div class='popSubTable'><div class='popContent'>" + "3km 이내 백화점" + "</div>" + "<div class='popResult'>" + departmentStore_3km + "</div></div>";
+    detailHtml += "<div class='popSubTable'><div class='popContent'>" + "5km 이내 아울렛/몰" + "</div>" + "<div class='popResult'>" + OutletMall_5km + "</div></div>";
+    detailHtml += "<div class='popSubTable'><div class='popContent'>" + "1km 이내 대형마트" + "</div>" + "<div class='popResult'>" + bigMart_1km + "</div></div>";
+    detailHtml += "<div class='popSubTable'><div class='popContent'>" + "500m 이내 은행" + "</div>" + "<div class='popResult'>" + bank_500m + "</div></div>";
+    detailHtml += "<div class='popSubTable'><div class='popContent'>" + "500m 이내 병원" + "</div>" + "<div class='popResult'>" + bank_500m + "</div></div>";
+    detailHtml += "<div class='popSubTable'><div class='popContent'>" + "5km 이내 대형병원" + "</div>" + "<div class='popResult'>" + bigHospital_5km + "</div></div>";
+    detailHtml += "<div class='popSubTable'><div class='popContent'>" + "500m 이내 공원" + "</div>" + "<div class='popResult'>" + park_500m + "</div></div>";
+    detailHtml += "<div class='popSubTable'><div class='popContent'>" + "3km 이내 혐오시설" + "</div>" + "<div class='popResult'>" + harmful_3km + "</div></div>";
+    detailHtml += "</div></div></div></div>"
+    avgInfraScore = Math.round( infraSum/itemNum * 100 ) / 100;
+
+    //학군
+    detailHtml += "<div class='card'>";
+    detailHtml += "<div class='card-header'>";
+    detailHtml += "<div class='popTitle'><i class='fas fa-graduation-cap'></i>&nbsp학군</div>"
+    detailHtml += "</div>";
+    detailHtml += "<div class='card-body'>";
+    detailHtml += "<div id='popEducation'>"    
+    detailHtml += "<div class='graph' style='height: 120px'> <canvas id='eduChart'></canvas></div>"
+    detailHtml += "<div class='popTable'>"
+    detailHtml += "<div class='popSubTable'><div class='popContent'>" + "초등학교 학업성취도" + "</div>" + "<div class='popResult'>" + pSchool_edu + "</div></div>";
+    detailHtml += "<div class='popSubTable'><div class='popContent'>" + "중학교 학업성취도" + "</div>" + "<div class='popResult'>" + mSchool_edu + "</div></div>";    
+    detailHtml += "</div></div></div></div>"
+    avgEduScore = Math.round( eduSum/itemNum * 100 ) / 100;    
+    
+    //지역구    
+    detailHtml += "<div class='card'>";
+    detailHtml += "<div class='card-header'>";
+    detailHtml += "<div class='popTitle'><i class='fas fa-layer-group'></i>&nbsp" + regionName + "</div>"
+    detailHtml += "</div>";
+    detailHtml += "<div class='card-body'>";
+    detailHtml += "<div id='popEducation'>"    
+    detailHtml += "<div class='graph' style='height: 120px'> <canvas id='regionChart'></canvas></div>"        
+    detailHtml += "</div></div></div>"
+
+    $('#aptDetail').html(detailHtml);
+    $('#exampleModalLabel').html(titleHtml);
+    drawChart(aptValue, livingScore, transportScore, infraScore, eduScore)
+    drawSubChart(livingScore, avgLivingScore, "주거총점", "지역평균", "#f97f95", "#9f9f9f",  "livingChart")
+    drawSubChart(transportScore, avgTransportScore, "교통총점", "지역평균", "#f97f95", "#9f9f9f", "transportChart")
+    drawSubChart(infraScore, avgInfraScore, "인프라총점", "지역평균", "#f97f95", "#9f9f9f", "infraChart")
+    drawSubChart(eduScore, avgEduScore, "학군총점", "지역평균", "#f97f95", "#9f9f9f", "eduChart")
+    drawSubChart(eduScore, avgEduScore, "인구총점", "일자리총점", "#f97f95", "#f97f95", "regionChart")
+  }
+
+  function drawChart(aptValue, livingScore, transportScore, infraScore, eduScore){
+      var ctx = document.getElementById("valueChart").getContext('2d');
+      var myChart = new Chart(ctx, {
+        type: 'bar',
+        plugins:[ChartDataLabels],
+        data: {          
+          labels: ["총점", "주거", "교통", "인프라", "교육"],
+          datasets: [{                
+            data: [aptValue, livingScore, transportScore, infraScore, eduScore],            
+            backgroundColor: [
+                '#ff3d38',
+                '#f97f95',
+                '#f97f95',
+                '#f97f95',
+                '#f97f95',
+            ],
+            borderColor: [
+                'rgba(255,99,132, 0)',
+                'rgba(54, 162, 235, 0)',
+            ],                
+            barThickness: 15,            
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          maintainAspectRatio: false,          
+          plugins:{
+            legend:{
+              display: false
+            },            
+            datalabels: {
+              display: true,
+              color: 'white',
+              align: 'start',
+              anchor: 'end',              
+              offset: 6,
+              textAlign: 'center',
+              font: {
+                weight: 'bold'
+              },              
+            },                      
+          },
+          animation: {            
+            x:{
+              from: 100
+            }
+          },
+          scales: {
+            x:{
+              type: 'linear',
+              min: 0,
+              max: 100,
+            },
+            myScale: {              
+              position: 'left', // `axis` is determined by the position as `'y'`
+            }
+          }          
+        }
+    });
+  }
+  
+  function drawSubChart(score, avgScore, label1, label2, color1, color2, className){    
+      var ctx = document.getElementById(className).getContext('2d');
+      var myChart = new Chart(ctx, {
+        type: 'bar',
+        plugins:[ChartDataLabels],
+        data: {          
+          labels: [label1, label2],
+          datasets: [{                
+            data: [score, avgScore],
+            backgroundColor: [
+                color1,
+                color2,
+            ],               
+            barThickness: 12,            
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          maintainAspectRatio: false,          
+          plugins:{
+            legend:{
+              display: false
+            },            
+            datalabels: {
+              display: true,
+              color: 'white',
+              align: 'start',
+              anchor: 'end',              
+              offset: 6,
+              textAlign: 'center',
+              font: {
+                weight: 'bold'
+              },              
+            },                      
+          },
+          animation: {            
+            x:{
+              from: 100
+            }
+          },
+          scales: {
+            x:{
+              type: 'linear',
+              min: 0,
+              max: 100,
+            },
+            myScale: {              
+              position: 'left', // `axis` is determined by the position as `'y'`
+            }
+          }          
+        }
+    });
+  }
+</script>
+</html>
