@@ -73,7 +73,7 @@
     color: gray;
   }
   .apt_name{
-    font-size: 0.95em;
+    font-size: 0.85em;
     font-weight: bold;
   }
 
@@ -385,7 +385,7 @@
     var jobScore = Math.round( aptData.data[index]["일자리총점"] * 100 ) / 100
 
     //Title    
-    titleHtml += "<div class='popupTitle'>" + " " + apt_p + "(" + apt_m + ")</div>";    
+    titleHtml += "<div class='popupTitle'>" + aptName + " " + apt_p + "(" + apt_m + ")</div>";    
     titleHtml += "<div class='popupSubtitle'>" + aptYear + "</div>";
     titleHtml += "<div class='popupSubtitle'>" + aptAddress + "</div>";    
 
