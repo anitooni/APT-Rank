@@ -127,6 +127,10 @@
     margin-bottom: 10px;
     border-bottom: solid 1px rgb(216, 216, 216);
   }
+  #popSubStation{
+    display: grid;    
+    grid-template-columns: 1fr 2fr;
+  }
   .popTitle{
     font-weight: 600;
   }
@@ -227,8 +231,8 @@
                 var addon_html = "<div class='listBox' data-bs-toggle='modal' data-bs-target='#exampleModal' id='myModal' onClick='showDetail(" + i + ")'>";
                 addon_html += "<div class='rank'>" + rank + "위</div>";
                 addon_html += "<div class='content'>";
-                //addon_html += "<div class='apt_name'>" + aptName + " " + apt_p + "(" + apt_m + ")</div>";
-                addon_html += "<div class='apt_name'>" + aptName + "</div>";
+                addon_html += "<div class='apt_name'>" + aptName + " " + apt_p + "(" + apt_m + ")</div>";
+                //addon_html += "<div class='apt_name'>" + aptName + "</div>";
                 addon_html += "<div class='apt_address'>" + aptAddress + "</div>";
                 addon_html += "</div>";
                 addon_html += "<div class='value_score'>" + aptValue + "점</div>"
@@ -238,13 +242,20 @@
               } 
             });
 
-            $('#exampleModal').on('hide.bs.modal', function (e) {
-                if(location.hash=='#exampleModal')window.history.back();
+            $('div.modal').on('show.bs.modal', function() {
+              var modal = this;
+              var hash = modal.id;
+              window.location.hash = hash;
+              window.onhashchange = function() {
+                if (!location.hash){
+                  $(modal).modal('hide');
+                }
+              }
             });
-
-            $(window).on('popstate', function (event) {  //pressed back button
-                if(event.state!==null)$('.modal').modal('hide');
-            });
+            $('div.modal').on('hidden.bs.modal', function() {
+              var hash = this.id;
+              history.replaceState('', document.title, window.location.pathname);
+            })
           });          
         </script>
       </div>
@@ -329,8 +340,8 @@
           var addon_html = "<div class='listBox' data-bs-toggle='modal' data-bs-target='#exampleModal' id='myModal' onClick='showDetail(" + i + ")'>";
           addon_html += "<div class='rank'>" + rank + "위</div>";
           addon_html += "<div class='content'>";
-          //addon_html += "<div class='apt_name'>" + aptName + " " + apt_p + "(" + apt_m + ")</div>";
-          addon_html += "<div class='apt_name'>" + aptName + "</div>";
+          addon_html += "<div class='apt_name'>" + aptName + " " + apt_p + "(" + apt_m + ")</div>";
+          //addon_html += "<div class='apt_name'>" + aptName + "</div>";
           addon_html += "<div class='apt_address'>" + aptAddress + "</div>";
           addon_html += "</div>";
           addon_html += "<div class='value_score'>" + aptValue + "점</div>"
@@ -374,7 +385,7 @@
     var jobScore = Math.round( aptData.data[index]["일자리총점"] * 100 ) / 100
 
     //Title    
-    titleHtml += "<div class='popupTitle'>" + aptName + "</div>";    
+    titleHtml += "<div class='popupTitle'>" + " " + apt_p + "(" + apt_m + ")</div>";    
     titleHtml += "<div class='popupSubtitle'>" + aptYear + "</div>";
     titleHtml += "<div class='popupSubtitle'>" + aptAddress + "</div>";    
 
@@ -405,7 +416,7 @@
     detailHtml += "<div id='popTransport'>"    
     detailHtml += "<div class='graph' style='height: 120px'> <canvas id='transportChart'></canvas></div>"
     detailHtml += "<div class='popTable'>"
-    detailHtml += "<div class='popSubTable'><div class='popContent'>" + "가장 가까운 역" + "</div>" + "<div class='popResult'>" + nearestStation + "</div></div>";
+    detailHtml += "<div class='popSubTable' id='popSubStation'><div class='popContent'>" + "가장 가까운 역" + "</div>" + "<div class='popResult'>" + nearestStation + "</div></div>";
     detailHtml += "<div class='popSubTable'><div class='popContent'>" + "30분 이내 도착 가능 주요역" + "</div>" + "<div class='popResult'>" + stationPoint_30m + "</div></div>";
     detailHtml += "<div class='popSubTable'><div class='popContent'>" + "1시간 이내 도착 가능 주요역" + "</div>" + "<div class='popResult'>" + stationPoint_1h + "</div></div>";    
     detailHtml += "</div></div></div></div>"
