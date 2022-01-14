@@ -5,7 +5,7 @@
   <meta property="og:type" content="website"> 
   <meta property="og:title" content="AI가 판단한 대한민국 아파트 입지 랭킹">
   <meta property="og:description" content="AI가 판정하는 대한민국 아파트 입지 랭킹">
-  <meta property="og:image" content="https://anitooni.github.io/APT-Rank/apt-rank.png">
+  <meta property="og:image" content="https://anitooni.github.io/APT-Rank/apt-rank.jpg">
   <meta property="og:url" content="https://anitooni.github.io/APT-Rank/">
 
   <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
@@ -19,8 +19,10 @@
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>  
 </head>
 <style>
-  
-  
+  body{
+    -ms-overflow-style: none;
+  }
+  ::-webkit-scrollbar { display: none; }
 
   #titleBar{
     position: fixed;
@@ -44,7 +46,7 @@
   #dataList{
     display:block;
     width: 100%;
-    margin-top: 100px;
+    padding-top: 100px;    
   }
   .listBox{
     display: grid;
@@ -453,6 +455,16 @@
     drawSubChart(eduScore, avgEduScore, "학군총점", "지역평균", "#f97f95", "#9f9f9f", "eduChart")
     drawSubChart(eduScore, avgEduScore, "인구총점", "일자리총점", "#f97f95", "#f97f95", "regionChart")
   }
+
+  $('#exampleModal').on('show.bs.modal', function(e) {
+        window.location.hash = "exampleModal";
+    });
+
+  $(window).on('hashchange', function (event) {
+      if(window.location.hash != "#exampleModal") {
+          $('#exampleModal').modal('hide');
+      }
+  });
 
   function drawChart(aptValue, livingScore, transportScore, infraScore, eduScore){
       var ctx = document.getElementById("valueChart").getContext('2d');
