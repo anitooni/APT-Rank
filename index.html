@@ -231,8 +231,8 @@
                 var addon_html = "<div class='listBox' data-bs-toggle='modal' data-bs-target='#exampleModal' id='myModal' onClick='showDetail(" + i + ")'>";
                 addon_html += "<div class='rank'>" + rank + "위</div>";
                 addon_html += "<div class='content'>";
-                addon_html += "<div class='apt_name'>" + aptName + " " + apt_p + "(" + apt_m + ")</div>";
-                //addon_html += "<div class='apt_name'>" + aptName + "</div>";
+                //addon_html += "<div class='apt_name'>" + aptName + " " + apt_p + "(" + apt_m + ")</div>";
+                addon_html += "<div class='apt_name'>" + aptName + "</div>";
                 addon_html += "<div class='apt_address'>" + aptAddress + "</div>";
                 addon_html += "</div>";
                 addon_html += "<div class='value_score'>" + aptValue + "점</div>"
@@ -340,8 +340,8 @@
           var addon_html = "<div class='listBox' data-bs-toggle='modal' data-bs-target='#exampleModal' id='myModal' onClick='showDetail(" + i + ")'>";
           addon_html += "<div class='rank'>" + rank + "위</div>";
           addon_html += "<div class='content'>";
-          addon_html += "<div class='apt_name'>" + aptName + " " + apt_p + "(" + apt_m + ")</div>";
-          //addon_html += "<div class='apt_name'>" + aptName + "</div>";
+          //addon_html += "<div class='apt_name'>" + aptName + " " + apt_p + "(" + apt_m + ")</div>";
+          addon_html += "<div class='apt_name'>" + aptName + "</div>";
           addon_html += "<div class='apt_address'>" + aptAddress + "</div>";
           addon_html += "</div>";
           addon_html += "<div class='value_score'>" + aptValue + "점</div>"
@@ -381,11 +381,14 @@
     var infraScore = aptData.data[index]["인프라총점"]
     var eduScore = aptData.data[index]["학군총점"]
     var livingScore = aptData.data[index]["주거총점"]
+    var area_info = aptData.data[index]["area_info"]
     var populationScore = Math.round( aptData.data[index]["인구총점"] * 100 ) / 100
     var jobScore = Math.round( aptData.data[index]["일자리총점"] * 100 ) / 100
 
     //Title    
-    titleHtml += "<div class='popupTitle'>" + aptName + " " + apt_p + "(" + apt_m + ")</div>";    
+    //titleHtml += "<div class='popupTitle'>" + aptName + " " + apt_p + "(" + apt_m + ")</div>";    
+    titleHtml += "<div class='popupTitle'>" + aptName + "</div>";
+    titleHtml += "<div class='popupSubtitle'>" + area_info + "</div>";
     titleHtml += "<div class='popupSubtitle'>" + aptYear + "</div>";
     titleHtml += "<div class='popupSubtitle'>" + aptAddress + "</div>";    
 
@@ -400,7 +403,7 @@
 
     detailHtml += "<div class='card'>";
     detailHtml += "<div class='card-header'>";
-    detailHtml += "<div class='popTitle'><i class='fas fa-home'></i>&nbsp주거</div>"
+    detailHtml += "<div class='popTitle'><i class='fas fa-home'></i>&nbsp&nbsp주거</div>"
     detailHtml += "</div>";
     detailHtml += "<div class='card-body'>";    
     detailHtml += "<div class='graph' style='height: 120px'> <canvas id='livingChart'></canvas></div>"
@@ -410,7 +413,7 @@
     //교통
     detailHtml += "<div class='card'>";
     detailHtml += "<div class='card-header'>";
-    detailHtml += "<div class='popTitle'><i class='fas fa-bus'></i>&nbsp교통</div>"
+    detailHtml += "<div class='popTitle'><i class='fas fa-bus'></i>&nbsp&nbsp교통</div>"
     detailHtml += "</div>";
     detailHtml += "<div class='card-body'>";
     detailHtml += "<div id='popTransport'>"    
@@ -425,7 +428,7 @@
     //인프라
     detailHtml += "<div class='card'>";
     detailHtml += "<div class='card-header'>";
-    detailHtml += "<div class='popTitle'><i class='fas fa-hospital-user'></i>&nbsp인프라</div>"
+    detailHtml += "<div class='popTitle'><i class='fas fa-hospital-user'></i>&nbsp&nbsp인프라</div>"
     detailHtml += "</div>";
     detailHtml += "<div class='card-body'>";
     detailHtml += "<div id='popInfra'>"    
@@ -445,7 +448,7 @@
     //학군
     detailHtml += "<div class='card'>";
     detailHtml += "<div class='card-header'>";
-    detailHtml += "<div class='popTitle'><i class='fas fa-graduation-cap'></i>&nbsp학군</div>"
+    detailHtml += "<div class='popTitle'><i class='fas fa-graduation-cap'></i>&nbsp&nbsp학군</div>"
     detailHtml += "</div>";
     detailHtml += "<div class='card-body'>";
     detailHtml += "<div id='popEducation'>"    
@@ -459,7 +462,7 @@
     //지역구    
     detailHtml += "<div class='card'>";
     detailHtml += "<div class='card-header'>";
-    detailHtml += "<div class='popTitle'><i class='fas fa-layer-group'></i>&nbsp" + regionName + "</div>"
+    detailHtml += "<div class='popTitle'><i class='fas fa-layer-group'></i>&nbsp&nbsp" + regionName + "</div>"
     detailHtml += "</div>";
     detailHtml += "<div class='card-body'>";
     detailHtml += "<div id='popEducation'>"    
