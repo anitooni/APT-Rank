@@ -130,7 +130,11 @@
   #popSubStation{
     display: grid;    
     grid-template-columns: 1fr 2fr;
-  }  
+  }
+  #popSubLiving{
+    display: grid;    
+    grid-template-columns: 1fr 3fr;
+  }
   #popSubResult{
     text-align: left;
   }
@@ -421,9 +425,8 @@
     detailHtml += "<div id='popLiving'>"
     detailHtml += "<div class='graph' style='height: 120px'> <canvas id='livingChart'></canvas></div>"
     detailHtml += "<div class='popTable'>"
-    detailHtml += "<div class='popSubTable'><div class='popContent'>" + "세대수" + "</div>" + "<div class='popResult'>" + house_num + "</div></div>";
-    detailHtml += "<div id='popSubLiving'><div class='popContent'><br>" + "면적 구성" + "<br>";
-    detailHtml += "<span class='popResult'>" + area_info + "</span></div></div>";
+    detailHtml += "<div class='popSubTable'><div class='popContent'>" + "세대수" + "</div>" + "<div class='popResult'>" + house_num + "세대</div></div>";
+    detailHtml += "<div class='popSubTable' id='popSubLiving'><div class='popContent'>" + "면적 구성" + "</div>" + "<div class='popResult'>" + area_info + "</div></div>";
     detailHtml += "</div></div></div></div>"   
     avgLivingScore = Math.round( livingSum/itemNum * 100 ) / 100
 
