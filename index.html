@@ -122,7 +122,7 @@
   .popSubTable{
     display: grid;
     height: 1.8em;
-    grid-template-columns: 1.5fr 1fr;
+    grid-template-columns: 1.5fr 1fr;    
     margin-top: 10px;
     margin-bottom: 10px;
     border-bottom: solid 1px rgb(216, 216, 216);
@@ -130,6 +130,12 @@
   #popSubStation{
     display: grid;    
     grid-template-columns: 1fr 2fr;
+  }  
+  #popSubResult{
+    text-align: left;
+  }
+  .popTable{
+    display: block
   }
   .popTitle{
     font-weight: 600;
@@ -146,7 +152,7 @@
   .card{
     margin-bottom: 10px;
     box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
-  }  
+  }
 
   @media screen and (min-width: 800px){
     #modal .modalWindow{      
@@ -387,8 +393,7 @@
 
     //Title    
     //titleHtml += "<div class='popupTitle'>" + aptName + " " + apt_p + "(" + apt_m + ")</div>";    
-    titleHtml += "<div class='popupTitle'>" + aptName + "</div>";
-    titleHtml += "<div class='popupSubtitle'>" + area_info + "</div>";
+    titleHtml += "<div class='popupTitle'>" + aptName + "</div>";    
     titleHtml += "<div class='popupSubtitle'>" + aptYear + "</div>";
     titleHtml += "<div class='popupSubtitle'>" + aptAddress + "</div>";    
 
@@ -401,13 +406,18 @@
     detailHtml += "<div class='graph' style='height: 200px'> <canvas id='valueChart'></canvas></div>"
     detailHtml += "</div></div>"
 
+    //주거
     detailHtml += "<div class='card'>";
     detailHtml += "<div class='card-header'>";
     detailHtml += "<div class='popTitle'><i class='fas fa-home'></i>&nbsp&nbsp주거</div>"
     detailHtml += "</div>";
-    detailHtml += "<div class='card-body'>";    
+    detailHtml += "<div class='card-body'>";
+    detailHtml += "<div id='popLiving'>"
     detailHtml += "<div class='graph' style='height: 120px'> <canvas id='livingChart'></canvas></div>"
-    detailHtml += "</div></div>"
+    detailHtml += "<div class='popTable'>"
+    detailHtml += "<div id='popSubLiving'><div class='popContent'><br>" + "면적 구성" + "<br>";
+    detailHtml += "<span class='popResult'>" + area_info + "</span></div></div>";
+    detailHtml += "</div></div></div></div>"   
     avgLivingScore = Math.round( livingSum/itemNum * 100 ) / 100
 
     //교통
@@ -416,7 +426,7 @@
     detailHtml += "<div class='popTitle'><i class='fas fa-bus'></i>&nbsp&nbsp교통</div>"
     detailHtml += "</div>";
     detailHtml += "<div class='card-body'>";
-    detailHtml += "<div id='popTransport'>"    
+    detailHtml += "<div id='popTransport'>"
     detailHtml += "<div class='graph' style='height: 120px'> <canvas id='transportChart'></canvas></div>"
     detailHtml += "<div class='popTable'>"
     detailHtml += "<div class='popSubTable' id='popSubStation'><div class='popContent'>" + "가장 가까운 역" + "</div>" + "<div class='popResult'>" + nearestStation + "</div></div>";
