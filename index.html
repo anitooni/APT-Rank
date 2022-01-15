@@ -194,6 +194,11 @@
                 <option value="1171000000_Seoul_Songpa">서울시 송파구</option>
             </optgroup>
             <optgroup value="Gyeonggi" label="경기도">
+                <option value="4111300000_Gyeonggi_Suwon_Gwonseon">경기도 수원시 권선구</option>
+                <option value="4111700000_Gyeonggi_Suwon_Yeongtong">경기도 수원시 영통구</option>                
+                <option value="4111100000_Gyeonggi_Suwon_Jangan">경기도 수원시 장안구</option>
+                <option value="4111500000_Gyeonggi_Suwon_Paldal">경기도 수원시 팔달구</option>
+
                 <option value="4146500000_Gyeonggi_Yongin_Suji">경기도 용인시 수지구</option>
                 <option value="4146300000_Gyeonggi_Yongin_Giheung">경기도 용인시 기흥구</option>
                 <option value="4146100000_Gyeonggi_Yongin_Cheoin">경기도 용인시 처인구</option>
@@ -388,6 +393,7 @@
     var eduScore = aptData.data[index]["학군총점"]
     var livingScore = aptData.data[index]["주거총점"]
     var area_info = aptData.data[index]["area_info"]
+    var house_num = aptData.data[index]["세대수"]
     var populationScore = Math.round( aptData.data[index]["인구총점"] * 100 ) / 100
     var jobScore = Math.round( aptData.data[index]["일자리총점"] * 100 ) / 100
 
@@ -415,6 +421,7 @@
     detailHtml += "<div id='popLiving'>"
     detailHtml += "<div class='graph' style='height: 120px'> <canvas id='livingChart'></canvas></div>"
     detailHtml += "<div class='popTable'>"
+    detailHtml += "<div class='popSubTable'><div class='popContent'>" + "세대수" + "</div>" + "<div class='popResult'>" + house_num + "</div></div>";
     detailHtml += "<div id='popSubLiving'><div class='popContent'><br>" + "면적 구성" + "<br>";
     detailHtml += "<span class='popResult'>" + area_info + "</span></div></div>";
     detailHtml += "</div></div></div></div>"   
