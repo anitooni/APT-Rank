@@ -496,11 +496,11 @@
     $('#aptDetail').html(detailHtml);
     $('#exampleModalLabel').html(titleHtml);
     drawChart(aptValue, livingScore, transportScore, infraScore, eduScore)
-    drawSubChart(livingScore, avgLivingScore, "주거총점", "지역평균", "#f97f95", "#9f9f9f",  "livingChart")
-    drawSubChart(transportScore, avgTransportScore, "교통총점", "지역평균", "#f97f95", "#9f9f9f", "transportChart")
-    drawSubChart(infraScore, avgInfraScore, "인프라총점", "지역평균", "#f97f95", "#9f9f9f", "infraChart")
-    drawSubChart(eduScore, avgEduScore, "학군총점", "지역평균", "#f97f95", "#9f9f9f", "eduChart")
-    drawSubChart(eduScore, avgEduScore, "인구총점", "일자리총점", "#f97f95", "#f97f95", "regionChart")
+    drawSubChart(livingScore, avgLivingScore, "주거총점", "지역평균", "#ff3d38", "#9f9f9f",  "livingChart")
+    drawSubChart(transportScore, avgTransportScore, "교통총점", "지역평균", "#ff3d38", "#9f9f9f", "transportChart")
+    drawSubChart(infraScore, avgInfraScore, "인프라총점", "지역평균", "#ff3d38", "#9f9f9f", "infraChart")
+    drawSubChart(eduScore, avgEduScore, "학군총점", "지역평균", "#ff3d38", "#9f9f9f", "eduChart")
+    drawSubChart(eduScore, avgEduScore, "인구총점", "일자리총점", "#ff3d38", "#ff3d38", "regionChart")
   }
 
   function drawChart(aptValue, livingScore, transportScore, infraScore, eduScore){
@@ -577,7 +577,7 @@
                 color1,
                 color2,
             ],               
-            barThickness: 15,            
+            barThickness: 20,            
           }]
         },
         options: {
