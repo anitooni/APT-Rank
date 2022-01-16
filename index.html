@@ -47,8 +47,9 @@
   #dataList{
     display:block;
     width: 100%;
-    padding-top: 100px;    
+    padding-top: 96px;    
   }
+
   .listBox{
     display: grid;
     grid-template-columns: 60px 1fr 80px;
@@ -56,6 +57,13 @@
     border-bottom: 1px solid gray;
     padding-top: 0.5em;
     padding-bottom: 0.5em;
+  }
+  .listBox:hover{
+    background-color: #ffdfde;
+  }
+
+  .listBox:active{
+    background-color: #ffbcba;
   }
   .value_score{
     text-align: right;
@@ -168,6 +176,14 @@
     text-align: right;
     padding-right: 20px;
   }
+  .notice{
+    font-size: 0.85em;    
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-bottom: 10px;
+    word-wrap: break-word;
+    word-break: keep-all;
+  }
 
   @media screen and (min-width: 800px){
     #modal .modalWindow{      
@@ -220,6 +236,24 @@
                 <option value="4146300000_Gyeonggi_Yongin_Giheung">경기도 용인시 기흥구</option>
                 <option value="4146100000_Gyeonggi_Yongin_Cheoin">경기도 용인시 처인구</option>
             </optgroup>
+            <optgroup value="Busan" label="부산시">
+              <option value="2644000000_Busan_Gangseo">부산시 강서구</option>
+              <option value="2641000000_Busan_Geumjeong">부산시 금정구</option>                
+              <option value="2671000000_Busan_Gijangn">부산시 기장군</option>
+              <option value="2629000000_Busan_Nam">부산시 남구</option>
+              <option value="2617000000_Busan_Dong">부산시 동구</option>
+              <option value="2626000000_Busan_Dongnae">부산시 동래구</option>                
+              <option value="2623000000_Busan_Busanjin">부산시 부산진구</option>
+              <option value="2632000000_Busan_Buk">부산시 북구</option>
+              <option value="2653000000_Busan_Sasang">부산시 사상구</option>
+              <option value="2638000000_Busan_Saha">부산시 사하구</option>                
+              <option value="2614000000_Busan_Seo">부산시 서구</option>
+              <option value="2650000000_Busan_Suyeong">부산시 수영구</option>
+              <option value="2647000000_Busan_Yeonje">부산시 연제구</option>
+              <option value="2620000000_Busan_Yeongdo">부산시 영도구</option>                
+              <option value="2611000000_Busan_Jung">부산시 중구</option>
+              <option value="2635000000_Busan_Haeundae">부산시 해운대구</option>              
+          </optgroup>
           </select>
         </div>
         <div id="month_selection">
@@ -443,20 +477,22 @@
     detailHtml += "</div></div></div></div>"   
     avgLivingScore = Math.round( livingSum/itemNum * 100 ) / 100
 
-    //교통
-    detailHtml += "<div class='card'>";
-    detailHtml += "<div class='card-header'>";
-    detailHtml += "<div class='popTitle'><i class='fas fa-bus'></i>&nbsp&nbsp교통</div>"
-    detailHtml += "</div>";
-    detailHtml += "<div class='card-body'>";
-    detailHtml += "<div id='popTransport'>"
-    detailHtml += "<div class='graph' style='height: 120px'> <canvas id='transportChart'></canvas></div>"
-    detailHtml += "<div class='popTable'>"
-    detailHtml += "<div class='popSubTable' id='popSubStation'><div class='popContent'>" + "가장 가까운 역" + "</div>" + "<div class='popResult'>" + nearestStation + "</div></div>";
-    detailHtml += "<div class='popSubTable'><div class='popContent'>" + "30분 이내 도착 가능 주요역" + "</div>" + "<div class='popResult'>" + stationPoint_30m + "</div></div>";
-    detailHtml += "<div class='popSubTable'><div class='popContent'>" + "1시간 이내 도착 가능 주요역" + "</div>" + "<div class='popResult'>" + stationPoint_1h + "</div></div>";    
-    detailHtml += "</div></div></div></div>"
-    avgTransportScore = Math.round( transportSum/itemNum * 100 ) / 100
+    if(transportScore != "NA"){
+      //교통
+      detailHtml += "<div class='card'>";
+      detailHtml += "<div class='card-header'>";
+      detailHtml += "<div class='popTitle'><i class='fas fa-bus'></i>&nbsp&nbsp교통</div>"
+      detailHtml += "</div>";
+      detailHtml += "<div class='card-body'>";
+      detailHtml += "<div id='popTransport'>"
+      detailHtml += "<div class='graph' style='height: 120px'> <canvas id='transportChart'></canvas></div>"
+      detailHtml += "<div class='popTable'>"
+      detailHtml += "<div class='popSubTable' id='popSubStation'><div class='popContent'>" + "가장 가까운 역" + "</div>" + "<div class='popResult'>" + nearestStation + "</div></div>";
+      detailHtml += "<div class='popSubTable'><div class='popContent'>" + "30분 이내 도착 가능 주요역" + "</div>" + "<div class='popResult'>" + stationPoint_30m + "</div></div>";
+      detailHtml += "<div class='popSubTable'><div class='popContent'>" + "1시간 이내 도착 가능 주요역" + "</div>" + "<div class='popResult'>" + stationPoint_1h + "</div></div>";    
+      detailHtml += "</div></div></div></div>"
+      avgTransportScore = Math.round( transportSum/itemNum * 100 ) / 100
+    }
 
     //인프라
     detailHtml += "<div class='card'>";
@@ -506,21 +542,31 @@
     $('#exampleModalLabel').html(titleHtml);
     drawChart(aptValue, livingScore, transportScore, infraScore, eduScore)
     drawSubChart(livingScore, avgLivingScore, "주거총점", "지역평균", "#ff3d38", "#9f9f9f",  "livingChart")
-    drawSubChart(transportScore, avgTransportScore, "교통총점", "지역평균", "#ff3d38", "#9f9f9f", "transportChart")
+    if(transportScore != "NA"){
+      drawSubChart(transportScore, avgTransportScore, "교통총점", "지역평균", "#ff3d38", "#9f9f9f", "transportChart")
+    }
     drawSubChart(infraScore, avgInfraScore, "인프라총점", "지역평균", "#ff3d38", "#9f9f9f", "infraChart")
     drawSubChart(eduScore, avgEduScore, "학군총점", "지역평균", "#ff3d38", "#9f9f9f", "eduChart")
     drawSubChart(eduScore, avgEduScore, "인구총점", "일자리총점", "#ff3d38", "#ff3d38", "regionChart")
   }
 
   function drawChart(aptValue, livingScore, transportScore, infraScore, eduScore){
+      var label = ["총점", "주거", "교통", "인프라", "교육"]
+      var data = [aptValue, livingScore, transportScore, infraScore, eduScore]
+
+      if(transportScore == "NA"){
+        label = ["총점", "주거", "인프라", "교육"]
+        data = [aptValue, livingScore, infraScore, eduScore]
+      }      
+
       var ctx = document.getElementById("valueChart").getContext('2d');
       var myChart = new Chart(ctx, {
         type: 'bar',
         plugins:[ChartDataLabels],
         data: {          
-          labels: ["총점", "주거", "교통", "인프라", "교육"],
+          labels: label,
           datasets: [{                
-            data: [aptValue, livingScore, transportScore, infraScore, eduScore],            
+            data: data,
             backgroundColor: [
                 '#ff3d38',
                 '#f97f95',
@@ -574,8 +620,26 @@
   }
 
   function showNotice(){
-    var titleHtml = "<div class='popupTitle'> 알립니다! </div>";
-    var detailHtml = "<div class='notice'> 공지사항 입니다. </div>";
+    var titleHtml = "<div class='popupTitle'> 아파트 랭킹에서 알려드립니다 </div>";
+    var detailHtml = "<div class='notice'> 안녕하세요. 아파트랭킹입니다.</div>";
+    detailHtml += "<div class='notice'> 종합적인 아파트 정보를 제공하는 서비스가 많음에도 불구하고, 우리 지역의 진짜 입지 좋은 곳을 한 번에 판단하기가 너무 어려워 아파트 랭킹 서비스를 만들었습니다. </div>";
+    detailHtml += "<div class='notice'> 개개인이 생각하는 아파트의 중요한 요소들이 있겠지만, AI를 통해 많은 정보를 종합하여 선정된 순서를 보여드리고자 했으니 유용하게 사용하시기 바래봅니다! </div>";
+    detailHtml += "<div class='notice'> 지속적인 업데이트를 통해 더 좋은 서비스를 제공하도록 노력하겠습니다. </div>";
+    detailHtml += "<div class='notice'> 서비스 사용에 대한 중요한 공지사항을 꼭 확인해 주세요!</div>";
+    detailHtml += "<hr>";
+    detailHtml += "<ul>";
+    detailHtml += "<li><div class='notice'> 아파트 랭킹의 점수는 투자지표가 아님을 말씀드립니다. 투자 판단에 대한 모든 책임님 투자자 본인에게 있습니다.</div></li>";
+    detailHtml += "<li><div class='notice'> 모든 점수는 환경 요소를 분석한 AI가 선정하며, 일체의 임의적 조작을 가하지 않습니다.</div></li>";
+    detailHtml += "<li><div class='notice'> 점수는 해당 지역구의 상대 점수이며, 다른 지역구의 동일 점수와 같은 가치를 나타내지 않습니다.</div></li>";
+    detailHtml += "<li><div class='notice'> 단지의 정보는 네이버 부동산 정보를 참조합니다.</div></li>";
+    detailHtml += "<li><div class='notice'> 수도권 교통 정보는 지하철역 위치 정보를 기반으로 산정됩니다.</div></li>";
+    detailHtml += "<li><div class='notice'> 인프라 정보는 각 백화점/마트 홈페이지, 은행연합회, 자원순환정보시스템, 공공데이터 포탈의 정보를 기반으로 산정됩니다.</div></li>";
+    detailHtml += "<li><div class='notice'> 학군 정보는 교육통계서비스 정보를 기반으로 산정됩니다.</div></li>";
+    detailHtml += "<li><div class='notice'> 지역구 정보는 공공데이터포탈 정보를 기반으로 산정됩니다.</div></li>";
+    detailHtml += "<li><div class='notice'> 모든 정보는 월 1회 업데이트 예정이며, 각 기반 정보의 업데이트 시점에 따라 변동 가능성이 있습니다.</div></li>";
+    detailHtml += "<li><div class='notice'> 문의사항, 오류수정, 개선제안은 이메일을 통해 요청해 주세요.</div></li>";
+    detailHtml += "<li><div class='notice'> <a href='mailto:anitooni@gmail.com'>anitooni@gmail.com</a></div></li>";
+    detailHtml += "</ul>";
     
     $('#exampleModalLabel').html(titleHtml);
     $('#aptDetail').html(detailHtml);
