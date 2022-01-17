@@ -288,6 +288,42 @@
           <optgroup value="Sejong" label="세종시">
             <option value="3611000000_Sejong_Sejong">세종시 세종시</option>            
           </optgroup>
+          <optgroup value="Gangwondo" label="강원도">
+            <option value="4215000000_Gangwondo_Gangneung">강원도 강릉시</option>
+            <option value="4282000000_Gangwondo_Goseong">강원도 고성군</option>
+            <option value="4217000000_Gangwondo_Donghae">강원도 동해시</option>
+            <option value="4223000000_Gangwondo_Samcheok">강원도 삼척시</option>
+            <option value="4221000000_Gangwondo_Sokcho">강원도 속초시</option>
+            <option value="4280000000_Gangwondo_Yanggu">강원도 양구군</option>
+            <option value="4283000000_Gangwondo_Yangyang">강원도 양양군</option>
+            <option value="4275000000_Gangwondo_Yeongwol">강원도 영월군</option>
+            <option value="4213000000_Gangwondo_Wonju">강원도 원주시</option>
+            <option value="4281000000_Gangwondo_Inje">강원도 인제군</option>
+            <option value="4277000000_Gangwondo_Jeongseon">강원도 정선군</option>
+            <option value="4278000000_Gangwondo_Cheorwon">강원도 철원군</option>
+            <option value="4211000000_Gangwondo_Chuncheon">강원도 춘천시</option>
+            <option value="4219000000_Gangwondo_Taebaek">강원도 태백시</option>
+            <option value="4276000000_Gangwondo_Pyeongchang">강원도 평창군</option>
+            <option value="4272000000_Gangwondo_Hongcheon">강원도 홍천군</option>
+            <option value="4279000000_Gangwondo_Hwacheon">강원도 화천군</option>
+            <option value="4273000000_Gangwondo_Hoengseong">강원도 횡성군</option>            
+          </optgroup>
+          <optgroup value="Chungcheongbukdo" label="충청북도">
+            <option value="4376000000_Chungcheongbukdo_Goesan">충북 괴산군</option>
+            <option value="4380000000_Chungcheongbukdo_Danyang">충북 단양군</option>
+            <option value="4372000000_Chungcheongbukdo_Boeun">충북 보은군</option>
+            <option value="4374000000_Chungcheongbukdo_Yeongdong">충북 영동군</option>
+            <option value="4373000000_Chungcheongbukdo_Okcheon">충북 옥천군</option>
+            <option value="4377000000_Chungcheongbukdo_Eumseong">충북 음성군</option>
+            <option value="4315000000_Chungcheongbukdo_Jecheon">충북 제천시</option>
+            <option value="4374500000_Chungcheongbukdo_Jeungpyeong">충북 증평군</option>
+            <option value="4375000000_Chungcheongbukdo_Jincheon">충북 진천군</option>
+            <option value="4311100000_Chungcheongbukdo_Cheongju_Sangdang">충북 청주시 상당구</option>
+            <option value="4311200000_Chungcheongbukdo_Cheongju_Seowon">충북 청주시 서원구</option>
+            <option value="4311400000_Chungcheongbukdo_Cheongju_Cheongwon">충북 청주시 청원구</option>
+            <option value="4311300000_Chungcheongbukdo_Cheongju_Heungdeok">충북 청주시 흥덕구</option>
+            <option value="4313000000_Chungcheongbukdo_Chungju">충북 충주시</option>
+          </optgroup>
           </select>
         </div>
         <div id="month_selection">
@@ -557,8 +593,8 @@
     detailHtml += "<div id='popEducation'>"    
     detailHtml += "<div class='graph' style='height: 120px'> <canvas id='eduChart'></canvas></div>"
     detailHtml += "<div class='popTable'>"
-    detailHtml += "<div class='popSubTable'><div class='popContent'>" + "초등학교 학업성취도" + "</div>" + "<div class='popResult'>" + pSchool_edu + "</div></div>";
-    detailHtml += "<div class='popSubTable'><div class='popContent'>" + "중학교 학업성취도" + "</div>" + "<div class='popResult'>" + mSchool_edu + "</div></div>";    
+    detailHtml += "<div class='popSubTable'><div class='popContent'>" + "초등학교 학생증감점수" + "</div>" + "<div class='popResult'>" + pSchool_edu + "</div></div>";
+    detailHtml += "<div class='popSubTable'><div class='popContent'>" + "중학교 학업성취도" + "</div>" + "<div class='popResult'>" + mSchool_edu + "</div></div>";
     detailHtml += "</div></div></div></div>"
     avgEduScore = Math.round( eduSum/itemNum * 100 ) / 100;    
     
