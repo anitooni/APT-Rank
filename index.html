@@ -569,7 +569,7 @@
           var aptName = aptData.data[i]["아파트명"]
           var apt_m = aptData.data[i]["전용면적(m2)"]
           var apt_p = aptData.data[i]["전용면적(평)"]
-          var aptAddress = aptData.data[i]["법정동주소"]
+          var aptAddress = aptData.data[i]["도로명주소"]
           var aptValue = Math.round( aptData.data[i]["가치 총점"] * 100 ) / 100;
           var rank = aptData.data[i]["rank"].toFixed()
 
@@ -603,7 +603,7 @@
     var aptName = aptData.data[index]["아파트명"]
     var apt_m = aptData.data[index]["전용면적(m2)"]
     var apt_p = aptData.data[index]["전용면적(평)"]
-    var aptAddress = aptData.data[index]["법정동주소"]
+    var aptAddress = aptData.data[index]["도로명주소"]
     var aptValue = Math.round( aptData.data[index]["가치 총점"] * 100 ) / 100;
     var aptDuration = aptData.data[index]["준공년차"]
     var aptYear = ""
