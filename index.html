@@ -585,7 +585,7 @@
           addon_html += "<div class='apt_name'>" + aptName + "</div>";
           addon_html += "<div class='apt_address'>" + aptAddress + "</div>";
           addon_html += "</div>";
-          addon_html += "<div class='value_score'>" + aptValue + "점</div>"
+          addon_html += "<div class='value_score'>" + ( Math.round( aptValue * 100 ) / 100 ).toFixed(2) + "점</div>"
           addon_html += "</div>"
 
           $('#dataList').append(addon_html);
@@ -610,7 +610,7 @@
       aptYear = aptData.data[index]["준공년월"] + " (" + aptDuration + "년차)"
     }    
 
-    var nearestStation = aptData.data[index]["가까운역이름"] + "역" + "(" + aptData.data[index]["가까운역거리"] + "m)"
+    var nearestStation = aptData.data[index]["가까운역이름"] + "역" + "(" + ( Math.round( aptData.data[index]["가까운역거리"] * 100 ) / 100 ).toFixed()  + "m)"
     var stationArea = aptData.data[index]["역세권여부"]
     var stationPoint_30m = aptData.data[index]["30분이내주요거점역"] + "개"
     var stationPoint_1h = aptData.data[index]["1시간이내주요거점역"] + "개"
@@ -622,13 +622,12 @@
     var bigHospital_5km = aptData.data[index]["5km이내대형병원수"] + "개"
     var park_500m = aptData.data[index]["500m이내공원수"] + "개"
     var harmful_3km = aptData.data[index]["3km이내혐오시설수"] + "개"
-    var pSchool_edu = aptData.data[index]["초등학교학업성취도"] + "점"
+    var pSchool_edu = aptData.data[index]["초등학교학업성취도"]
     var mSchool_edu = aptData.data[index]["중학교학업성취도"] + "%"
-    var livingScore = aptData.data[index]["주거총점"] + "점"
-    var transportScore = aptData.data[index]["교통총점"]
-    var infraScore = aptData.data[index]["인프라총점"]
-    var eduScore = aptData.data[index]["학군총점"]
-    var livingScore = aptData.data[index]["주거총점"]
+    var livingScore = ( Math.round( aptData.data[index]["주거총점"] * 100 ) / 100 ).toFixed(2)
+    var transportScore = ( Math.round( aptData.data[index]["교통총점"] * 100 ) / 100 ).toFixed(2)
+    var infraScore = ( Math.round( aptData.data[index]["인프라총점"] * 100 ) / 100 ).toFixed(2)
+    var eduScore = ( Math.round( aptData.data[index]["학군총점"] * 100 ) / 100 ).toFixed(2)
     var area_info = aptData.data[index]["area_info"]
     var house_num = aptData.data[index]["세대수"]
 
@@ -698,7 +697,7 @@
       detailHtml += "<div class='popSubTable'><div class='popContent'>" + "30분 이내 도착 가능 주요역" + "</div>" + "<div class='popResult'>" + stationPoint_30m + "</div></div>";
       detailHtml += "<div class='popSubTable'><div class='popContent'>" + "1시간 이내 도착 가능 주요역" + "</div>" + "<div class='popResult'>" + stationPoint_1h + "</div></div>";    
       detailHtml += "</div></div></div></div>"
-      avgTransportScore = Math.round( transportSum/itemNum * 100 ) / 100
+      avgTransportScore = ( Math.round( transportSum/itemNum * 100 ) / 100 ).toFixed(2)
     }
 
     //인프라
@@ -719,7 +718,7 @@
     detailHtml += "<div class='popSubTable'><div class='popContent'>" + "500m 이내 공원" + "</div>" + "<div class='popResult'>" + park_500m + "</div></div>";
     detailHtml += "<div class='popSubTable'><div class='popContent'>" + "3km 이내 혐오시설" + "</div>" + "<div class='popResult'>" + harmful_3km + "</div></div>";
     detailHtml += "</div></div></div></div>"
-    avgInfraScore = Math.round( infraSum/itemNum * 100 ) / 100;
+    avgInfraScore = ( Math.round( infraSum/itemNum * 100 ) / 100 ).toFixed(2)
 
     //학군
     detailHtml += "<div class='card'>";
@@ -730,10 +729,10 @@
     detailHtml += "<div id='popEducation'>"    
     detailHtml += "<div class='graph' style='height: 120px'> <canvas id='eduChart'></canvas></div>"
     detailHtml += "<div class='popTable'>"
-    detailHtml += "<div class='popSubTable'><div class='popContent'>" + "초등학교 학생증감점수" + "</div>" + "<div class='popResult'>" + pSchool_edu + "</div></div>";
+    detailHtml += "<div class='popSubTable'><div class='popContent'>" + "초등학교 학생증감점수" + "</div>" + "<div class='popResult'>" + ( Math.round( pSchool_edu * 100 ) / 100 ).toFixed(2) + "점</div></div>";
     detailHtml += "<div class='popSubTable'><div class='popContent'>" + "중학교 학업성취도" + "</div>" + "<div class='popResult'>" + mSchool_edu + "</div></div>";
     detailHtml += "</div></div></div></div>"
-    avgEduScore = Math.round( eduSum/itemNum * 100 ) / 100;    
+    avgEduScore = ( Math.round( eduSum/itemNum * 100 ) / 100 ).toFixed(2)
     
     //지역구    
     detailHtml += "<div class='card'>";
