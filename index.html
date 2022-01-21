@@ -684,9 +684,9 @@
     }
     detailHtml += "<div id='popSubLiving'><div class='popContent'>" + "면적 구성" + "<br>" + "<span class='popResult'>" + area_info + "</span></div></div>";
     detailHtml += "</div></div></div></div>"   
-    avgLivingScore = Math.round( livingSum/itemNum * 100 ) / 100
+    avgLivingScore = Math.round( livingSum/itemNum * 100 ) / 100    
 
-    if(isNan(transportScore) == false){
+    if(isNaN(transportScore) == false){
       //교통
       detailHtml += "<div class='card'>";
       detailHtml += "<div class='card-header'>";
@@ -751,7 +751,7 @@
     $('#exampleModalLabel').html(titleHtml);
     drawChart(aptValue, livingScore, transportScore, infraScore, eduScore)
     drawSubChart(livingScore, avgLivingScore, "주거총점", "지역평균", "#ff3d38", "#9f9f9f",  "livingChart")
-    if(transportScore != "NA"){
+    if(isNaN(transportScore) == false){
       drawSubChart(transportScore, avgTransportScore, "교통총점", "지역평균", "#ff3d38", "#9f9f9f", "transportChart")
     }
     drawSubChart(infraScore, avgInfraScore, "인프라총점", "지역평균", "#ff3d38", "#9f9f9f", "infraChart")
@@ -761,9 +761,9 @@
 
   function drawChart(aptValue, livingScore, transportScore, infraScore, eduScore){
       var label = ["총점", "주거", "교통", "인프라", "교육"]
-      var data = [aptValue, livingScore, transportScore, infraScore, eduScore]
+      var data = [aptValue, livingScore, transportScore, infraScore, eduScore]      
 
-      if(transportScore == "NA"){
+      if(isNaN(transportScore)){
         label = ["총점", "주거", "인프라", "교육"]
         data = [aptValue, livingScore, infraScore, eduScore]
       }      
