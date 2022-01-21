@@ -628,7 +628,7 @@
     var pSchool_edu = aptData.data[index]["초등학교학업성취도"]
     var mSchool_edu = aptData.data[index]["중학교학업성취도"] + "%"
     var livingScore = ( Math.round( aptData.data[index]["주거총점"] * 100 ) / 100 ).toFixed(2)
-    var transportScore = ( Math.round( aptData.data[index]["교통총점"] * 100 ) / 100 ).toFixed(2)
+    var transportScore = ( Math.round( aptData.data[index]["교통총점"] * 100 ) / 100 ).toFixed(2)    
     var infraScore = ( Math.round( aptData.data[index]["인프라총점"] * 100 ) / 100 ).toFixed(2)
     var eduScore = ( Math.round( aptData.data[index]["학군총점"] * 100 ) / 100 ).toFixed(2)
     var area_info = aptData.data[index]["area_info"]
@@ -686,7 +686,7 @@
     detailHtml += "</div></div></div></div>"   
     avgLivingScore = Math.round( livingSum/itemNum * 100 ) / 100
 
-    if(transportScore != "NA"){
+    if(isNan(transportScore) == false){
       //교통
       detailHtml += "<div class='card'>";
       detailHtml += "<div class='card-header'>";
