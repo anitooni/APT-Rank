@@ -211,6 +211,11 @@
     border-radius: 5px;
     border: None;
   }
+  .comment{
+    font-size: 0.8em;
+    text-align: right;
+    color: gray;
+  }
 
   .reg_subTable{
     display: grid;
@@ -254,7 +259,7 @@
       <div id="selections">
         <div id="region_selection">          
           <select id="region" onChange="updateRegion()">
-            <option value="1000000000_Korea">시군구별 인구/공급량/일자리</option>
+            <option value="1000000000_Korea">시군구별 공급필요/인구/일자리</option>
             <optgroup value="Seoul" label="서울시">
                 <option value="1168000000_Seoul_Gangnam" selected>서울시 강남구</option>
                 <option value="1165000000_Seoul_Seocho">서울시 서초구</option>
@@ -877,7 +882,8 @@
     detailHtml += "<div class='popRank'><i class='fas fa-trophy'></i> " + regRank + "</div>";
     detailHtml += "</div>";
     detailHtml += "<div class='card-body'>";    
-    detailHtml += "<div class='graph' style='height: 140px'> <canvas id='valueChart'></canvas></div>"
+    detailHtml += "<div class='graph' style='height: 200px'> <canvas id='valueChart'></canvas></div>"
+    detailHtml += "<div class='comment'>(100점 환산 점수)</div>";
     detailHtml += "</div></div>"
 
     //물량
@@ -962,7 +968,7 @@
         data = [aptValue, livingScore, infraScore, eduScore]        
       }
       if(eduScore == "region"){
-        label = ["총점", "공급부족", "인구수", "일자리수"]
+        label = ["총점", "공급필요", "인구수", "일자리수"]
         data = [aptValue, livingScore, transportScore, infraScore]        
       }
       if(aptValue < 85 && livingScore < 85 && transportScore < 85 && infraScore < 85){
