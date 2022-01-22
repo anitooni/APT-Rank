@@ -201,6 +201,22 @@
     border-radius: 5px;
     border: None;
   }
+  .goApt{
+    width: 100%;
+    font-size: 0.8em;
+    height: 2.5em;
+    background-color: #ff3d38;
+    color: white;
+    font-weight: 600;
+    border-radius: 5px;
+    border: None;
+  }
+
+  .reg_subTable{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-top: 5px;
+  }
 
   @media screen and (min-width: 800px){
     #modal .modalWindow{      
@@ -238,8 +254,9 @@
       <div id="selections">
         <div id="region_selection">          
           <select id="region" onChange="updateRegion()">
+            <option value="1000000000_Korea">시군구별 인구/공급량/일자리</option>
             <optgroup value="Seoul" label="서울시">
-                <option value="1168000000_Seoul_Gangnam">서울시 강남구</option>
+                <option value="1168000000_Seoul_Gangnam" selected>서울시 강남구</option>
                 <option value="1165000000_Seoul_Seocho">서울시 서초구</option>
                 <option value="1171000000_Seoul_Songpa">서울시 송파구</option>
             </optgroup>
@@ -466,39 +483,9 @@
           var prevValue = 0;          
 
           $(document).ready(function(){
-            $.getJSON("https://anitooni.github.io/APT-Rank/202201/1168000000_Seoul_Gangnam.json", function(json) {
-              //console.log(json);
-              aptData = json;
-              itemNum = json.data.length;              
-
-              for(var i = 0 ; i < itemNum ; i++){                
-                var aptName = aptData.data[i]["아파트명"]
-                var apt_m = aptData.data[i]["전용면적(m2)"]
-                var apt_p = aptData.data[i]["전용면적(평)"]
-                var aptAddress = aptData.data[i]["도로명주소"]
-                var aptValue = Math.round( aptData.data[i]["가치 총점"] * 100 ) / 100;
-                var rank = aptData.data[i]["rank"].toFixed()
-
-                valueSum += aptData.data[i]["가치 총점"]
-                livingSum += aptData.data[i]["주거총점"]
-                transportSum += aptData.data[i]["교통총점"]
-                infraSum += aptData.data[i]["인프라총점"]
-                eduSum += aptData.data[i]["학군총점"]
-                
-                //var addon_html = "<div class='listBox' onClick='showDetail(" + i + ")'>";
-                var addon_html = "<div class='listBox' data-bs-toggle='modal' data-bs-target='#exampleModal' id='myModal' onClick='showDetail(" + i + ")'>";
-                addon_html += "<div class='rank'>" + rank + "위</div>";
-                addon_html += "<div class='content'>";
-                //addon_html += "<div class='apt_name'>" + aptName + " " + apt_p + "(" + apt_m + ")</div>";
-                addon_html += "<div class='apt_name'>" + aptName + "</div>";
-                addon_html += "<div class='apt_address'>" + aptAddress + "</div>";
-                addon_html += "</div>";
-                addon_html += "<div class='value_score'>" + aptValue + "점</div>"
-                addon_html += "</div>"
-
-                $('#dataList').append(addon_html);
-              } 
-            });
+            month = "202201"
+            region = "1168000000_Seoul_Gangnam"
+            updateTable(month, region)
 
             $('div.modal').on('show.bs.modal', function() {
               var modal = this;
@@ -548,7 +535,13 @@
   var livingSum = 0;
   var transportSum = 0;
   var infraSum = 0;
-  var eduSum = 0;  
+  var eduSum = 0;
+
+  var regValueSum = 0;
+  var regSupplySum = 0;
+  var regPopSum = 0;
+  var regJobSum = 0;
+  var linked = ""
 
   function updateMonth(){
     var selection = document.getElementById("month")
@@ -559,15 +552,22 @@
   function updateRegion(){
     var selection = document.getElementById("region")
     selectedRegion = selection.value
-    updateTable(selectedMonth, selectedRegion)
-    regionName = $("#region option:selected").text()
-    //console.log(selectedRegion);
+
+    if (selectedRegion != "1000000000_Korea"){
+      updateTable(selectedMonth, selectedRegion)
+      regionName = $("#region option:selected").text()
+    }
+    else{
+      updateRegionTable(selectedMonth)
+    }
   }
 
   function updateTable(month, region){
+    console.log(month)
+    console.log(region)
+    $('#modal').modal("hide");
     $('html').scrollTop(0)
-    url = "https://anitooni.github.io/APT-Rank/" + month + "/" + region + ".json"
-    //console.log(url)
+    url = "https://anitooni.github.io/APT-Rank/" + month + "/" + region + ".json"    
     $('#dataList').html("");
 
     $.getJSON(url, function(json) {
@@ -652,7 +652,7 @@
 
     var searchCode = aptData.data[index]["검색코드"]
     var coord_y = aptData.data[index]["Y"]
-    var coord_x = aptData.data[index]["X"]
+    var coord_x = aptData.data[index]["X"]    
 
     var floor_rate = ""    
     if(aptData.data[index]["용적률"] == "0"){
@@ -788,19 +788,187 @@
     drawSubChart(eduScore, avgEduScore, "인구총점", "일자리총점", "#ff3d38", "#ff3d38", "regionChart")
   }
 
+  function updateRegionTable(month){
+    $('html').scrollTop(0)
+    url = "https://anitooni.github.io/APT-Rank/" + month + "/1000000000_Korea.json"    
+    $('#dataList').html("");
+
+    $.getJSON(url, function(json) {
+        //console.log(json);
+        regData = json;
+        itemNum = json.data.length;
+        regValueSum = 0;
+        regSupplySum = 0;
+        regPopSum = 0;
+        regJobSum = 0;
+
+        for(var i = 0 ; i < itemNum ; i++){                
+          var regName = regData.data[i]["시도"]
+          
+          var regSuplyLevel = regData.data[i]["공급수준"]
+          var regPopChange = regData.data[i]["인구증감"]
+          var regIncome = regData.data[i]["소득수준"]
+          var regValue = Math.round( regData.data[i]["가치 총점"] * 100 ) / 100;
+          var regRank = regData.data[i]["rank"]
+          var regJob = regData.data[i]["일자리"]
+
+          regValueSum += regData.data[i]["가치 총점"]
+          regSupplySum += regData.data[i]["지역구공급총점"]
+          regPopSum += regData.data[i]["인구총점"]
+          regJobSum += regData.data[i]["일자리총점"]          
+
+          var addon_html = "<div class='listBox' data-bs-toggle='modal' data-bs-target='#exampleModal' id='myModal' onClick='showRegionDetail(" + i + ")'>";
+          addon_html += "<div class='rank'>" + regRank + "위</div>";
+          addon_html += "<div class='content'>";          
+          addon_html += "<div class='apt_name'>" + regName + "</div>";
+          addon_html += "<div class='reg_subTable'>";
+
+          addon_html += "<div class='apt_address'>아파트 공급량 " + regSuplyLevel + "</div>";
+
+          var upDown = ""
+          if (regPopChange < 0){
+            upDown = "감소"            
+          }
+          else{
+            upDown = "증가"            
+          }
+          addon_html += "<div class='apt_address'>인구 " + (Math.abs(regPopChange)).toLocaleString() + "명 " + upDown + "</div>";
+          addon_html += "<div class='apt_address'>일자리 " + regJob.toLocaleString() + "개</div>";
+          addon_html += "<div class='apt_address'>소득 " + regIncome.toLocaleString() + "원</div>";          
+          addon_html += "</div></div>";
+          addon_html += "<div class='value_score'>" + ( Math.round( regValue * 100 ) / 100 ).toFixed(2) + "점</div>"
+          addon_html += "</div>"
+
+          $('#dataList').append(addon_html);
+        }
+    })
+  }
+
+  function showRegionDetail(index){
+    titleHtml = "";
+    detailHtml = "";
+    footerHtml = "";
+    var regRank = regData.data[index]["rank"] + "/" + regData.data[itemNum-1]["rank"] + "위"
+    var regName = regData.data[index]["시도"]
+    var regValue = ( Math.round(regData.data[index]["가치 총점"] * 100) / 100).toFixed(2)
+
+    var regSupplyAll = regData.data[index]["총물량"]
+    var regSupplyProper = regData.data[index]["적정입주물량"]
+    var regSupplyUpDown = Math.abs(regData.data[index]["과부족수"])
+    var regSupplyLevel = regData.data[index]["공급수준"]    
+    var regSupplyScore = ( Math.round(regData.data[index]["지역구공급총점"] * 100) / 100).toFixed(2)
+
+    var regPop = regData.data[index]["인구수"]
+    var regPopUpDown = regData.data[index]["인구증감"]
+    var regPopScore = ( Math.round(regData.data[index]["인구총점"] * 100) / 100).toFixed(2)
+
+    var regJob = regData.data[index]["일자리"]
+    var regIncome = regData.data[index]["소득수준"]
+    var regJobScore = ( Math.round(regData.data[index]["일자리총점"] * 100) / 100).toFixed(2)
+    linked = regData.data[index]["연결명"]
+
+    //Title    
+    //titleHtml += "<div class='popupTitle'>" + aptName + " " + apt_p + "(" + apt_m + ")</div>";    
+    titleHtml += "<div class='popupTitle'>" + regName + "</div>";    
+
+    //총점,순위
+    detailHtml += "<div class='card'>";
+    detailHtml += "<div class='card-header'>";
+    detailHtml += "<div class='popRank'><i class='fas fa-trophy'></i> " + regRank + "</div>";
+    detailHtml += "</div>";
+    detailHtml += "<div class='card-body'>";    
+    detailHtml += "<div class='graph' style='height: 140px'> <canvas id='valueChart'></canvas></div>"
+    detailHtml += "</div></div>"
+
+    //물량
+    detailHtml += "<div class='card'>";
+    detailHtml += "<div class='card-header'>";
+    detailHtml += "<div class='popTitle'><i class='fas fa-building'></i>&nbsp&nbsp공급량</div>"
+    detailHtml += "</div>";
+    detailHtml += "<div class='card-body'>";
+    detailHtml += "<div id='popLiving'>"    
+    detailHtml += "<div class='popTable'>"
+    //detailHtml += "<div class='graph' style='height: 120px'> <canvas id='supplyChart'></canvas></div>"
+    detailHtml += "<div class='popSubTable'><div class='popContent'>" + "총 공급량" + "</div>" + "<div class='popResult'>" + ( Math.round(regSupplyAll) ).toLocaleString() + "세대</div></div>";
+    detailHtml += "<div class='popSubTable'><div class='popContent'>" + "적정 입주량" + "</div>" + "<div class='popResult'>" + ( Math.round(regSupplyProper) ).toLocaleString() + "세대</div></div>";
+    detailHtml += "<div class='popSubTable'><div class='popContent'>" + "과부족" + "</div>" + "<div class='popResult'>" + ( Math.round(regSupplyUpDown) ).toLocaleString() + "세대 " + regSupplyLevel + "</div></div>";    
+    detailHtml += "</div></div></div></div>"
+    avgSupplyScore = ( Math.round( regSupplySum/itemNum * 100 ) / 100 ).toFixed(2)
+
+    //인구
+    detailHtml += "<div class='card'>";
+    detailHtml += "<div class='card-header'>";
+    detailHtml += "<div class='popTitle'><i class='fas fa-user-friends'></i>&nbsp&nbsp인구</div>"
+    detailHtml += "</div>";
+    detailHtml += "<div class='card-body'>";
+    detailHtml += "<div id='popInfra'>"    
+    detailHtml += "<div class='graph' style='height: 120px'> <canvas id='popChart'></canvas></div>"
+    detailHtml += "<div class='popTable'>"
+    detailHtml += "<div class='popSubTable'><div class='popContent'>" + "인구수" + "</div>" + "<div class='popResult'>" + regPop.toLocaleString() + "명</div></div>";
+    detailHtml += "<div class='popSubTable'><div class='popContent'>" + "인구증가" + "</div>" + "<div class='popResult'>" + ( Math.round(regPopUpDown) ).toLocaleString() + "명</div></div>";    
+    detailHtml += "</div></div></div></div>"
+    avgPopScore = ( Math.round( regPopSum/itemNum * 100 ) / 100 ).toFixed(2)
+
+    //일자리
+    detailHtml += "<div class='card'>";
+    detailHtml += "<div class='card-header'>";
+    detailHtml += "<div class='popTitle'><i class='fas fa-user-md'></i></i>&nbsp&nbsp일자리</div>"
+    detailHtml += "</div>";
+    detailHtml += "<div class='card-body'>";
+    detailHtml += "<div id='popEducation'>"    
+    detailHtml += "<div class='graph' style='height: 120px'> <canvas id='jobChart'></canvas></div>"
+    detailHtml += "<div class='popTable'>"
+    detailHtml += "<div class='popSubTable'><div class='popContent'>" + "일자리수" + "</div>" + "<div class='popResult'>" + regJob.toLocaleString() + "개</div></div>";
+    detailHtml += "<div class='popSubTable'><div class='popContent'>" + "평균소득" + "</div>" + "<div class='popResult'>" + regIncome.toLocaleString() + "원</div></div>";
+    detailHtml += "</div></div></div></div>"
+    avgJobScore = ( Math.round( regJobSum/itemNum * 100 ) / 100 ).toFixed(2)    
+
+    //Footer에 아파트보기 버튼
+    footerHtml += "<div class='modal-footer'>"
+    footerHtml += "<div></div>"    
+    footerHtml += "<div><button type='button' class='goApt' data-dismiss='modal' onClick='show_apt(selectedMonth, linked)'>" + regName + " 아파트 보기</button></div>"                  
+    footerHtml += "<div></div>"
+    footerHtml += "</div>"
+    
+    $('#exampleModalLabel').html(titleHtml);
+    $('#aptDetail').html(detailHtml);
+    $('#footer').html(footerHtml);
+ 
+    drawChart(regValue, regSupplyScore, regPopScore, regJobScore, "region")    
+    //drawSubChart(regSupplyScore, avgSupplyScore, "공급량총점", "전국평균", "#ff3d38", "#9f9f9f", "supplyChart")
+    drawSubChart(regPopScore, avgPopScore, "인구총점", "전국평균", "#ff3d38", "#9f9f9f", "popChart")
+    drawSubChart(regJobScore, avgJobScore, "일자리총점", "전국평균", "#ff3d38", "#9f9f9f", "jobChart")
+  }
+
+  function show_apt(month, filename){    
+    $("#region").val(filename).prop("selected", true);
+    $('.modal').modal("hide");
+    updateTable(month, filename)
+  }
+
   function openNaver(code, y, x){
-    nURL = "https://new.land.naver.com/complexes/" + code + "?ms=" + y + "," + x
+    nURL = "https://new.land.naver.com/complexes/" + code
     window.open(nURL)
   }
 
   function drawChart(aptValue, livingScore, transportScore, infraScore, eduScore){
       var label = ["총점", "주거", "교통", "인프라", "교육"]
       var data = [aptValue, livingScore, transportScore, infraScore, eduScore]      
+      var color = 'white'
+      var align = 'start'
 
       if(isNaN(transportScore)){
         label = ["총점", "주거", "인프라", "교육"]
-        data = [aptValue, livingScore, infraScore, eduScore]
-      }      
+        data = [aptValue, livingScore, infraScore, eduScore]        
+      }
+      if(eduScore == "region"){
+        label = ["총점", "공급부족", "인구수", "일자리수"]
+        data = [aptValue, livingScore, transportScore, infraScore]        
+      }
+      if(aptValue < 85 && livingScore < 85 && transportScore < 85 && infraScore < 85){
+        color = 'black'
+        align = 'end'
+      }
 
       var ctx = document.getElementById("valueChart").getContext('2d');
       var myChart = new Chart(ctx, {
@@ -833,8 +1001,8 @@
             },            
             datalabels: {
               display: true,
-              color: 'white',
-              align: 'start',
+              color: color,
+              align: align,
               anchor: 'end',              
               offset: 6,
               textAlign: 'center',
@@ -889,8 +1057,16 @@
     $('#footer').html("");
   }
   
-  function drawSubChart(score, avgScore, label1, label2, color1, color2, className){    
+  function drawSubChart(score, avgScore, label1, label2, color1, color2, className){
       var ctx = document.getElementById(className).getContext('2d');
+      var color = 'white'
+      var align = 'start'
+
+      if(score < 85 && avgScore < 85){
+        color = 'black'
+        align = 'end'      
+      }
+
       var myChart = new Chart(ctx, {
         type: 'bar',
         plugins:[ChartDataLabels],
@@ -914,8 +1090,8 @@
             },            
             datalabels: {
               display: true,
-              color: 'white',
-              align: 'start',
+              color: color,
+              align: align,
               anchor: 'end',              
               offset: 6,
               textAlign: 'center',
