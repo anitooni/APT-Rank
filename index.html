@@ -117,7 +117,7 @@
     $("#sido").val(selectedRegion).prop("selected", true);
     regionName = $("#sido option:selected").val();
     optionChange(selectedSubRegion)
-    updateRegion()
+    updateMonth()
 
     //var regionSubName = $("#gungu option:selected").val()    
 
@@ -233,7 +233,7 @@
   function updateMonth(){    
     selectedMonth = $("#month option:selected").val()
     console.log(selectedMonth)
-    updateTable(selectedMonth, selectedRegion)
+    updateTable(selectedMonth, selectedSubRegion)
     regionName = $("#sido option:selected").text()
   }
   function updateRegion(){
