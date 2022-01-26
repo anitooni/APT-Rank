@@ -144,24 +144,24 @@
     ]
 
   var inGangwondo=[
-      ['강원도 강릉시', '4215000000_Gangwondo_Gangneung'], 
-      ['강원도 고성군', '4282000000_Gangwondo_Goseong'], 
-      ['강원도 동해시', '4217000000_Gangwondo_Donghae'], 
-      ['강원도 삼척시', '4223000000_Gangwondo_Samcheok'], 
-      ['강원도 속초시', '4221000000_Gangwondo_Sokcho'], 
-      ['강원도 양구군', '4280000000_Gangwondo_Yanggu'], 
-      ['강원도 양양군', '4283000000_Gangwondo_Yangyang'], 
-      ['강원도 영월군', '4275000000_Gangwondo_Yeongwol'], 
-      ['강원도 원주시', '4213000000_Gangwondo_Wonju'], 
-      ['강원도 인제군', '4281000000_Gangwondo_Inje'], 
-      ['강원도 정선군', '4277000000_Gangwondo_Jeongseon'], 
-      ['강원도 철원군', '4278000000_Gangwondo_Cheorwon'], 
-      ['강원도 춘천시', '4211000000_Gangwondo_Chuncheon'], 
-      ['강원도 태백시', '4219000000_Gangwondo_Taebaek'], 
-      ['강원도 평창군', '4276000000_Gangwondo_Pyeongchang'], 
-      ['강원도 홍천군', '4272000000_Gangwondo_Hongcheon'], 
-      ['강원도 화천군', '4279000000_Gangwondo_Hwacheon'], 
-      ['강원도 횡성군', '4273000000_Gangwondo_Hoengseong']
+      ['강릉시', '4215000000_Gangwondo_Gangneung'], 
+      ['고성군', '4282000000_Gangwondo_Goseong'], 
+      ['동해시', '4217000000_Gangwondo_Donghae'], 
+      ['삼척시', '4223000000_Gangwondo_Samcheok'], 
+      ['속초시', '4221000000_Gangwondo_Sokcho'], 
+      ['양구군', '4280000000_Gangwondo_Yanggu'], 
+      ['양양군', '4283000000_Gangwondo_Yangyang'], 
+      ['영월군', '4275000000_Gangwondo_Yeongwol'], 
+      ['원주시', '4213000000_Gangwondo_Wonju'], 
+      ['인제군', '4281000000_Gangwondo_Inje'], 
+      ['정선군', '4277000000_Gangwondo_Jeongseon'], 
+      ['철원군', '4278000000_Gangwondo_Cheorwon'], 
+      ['춘천시', '4211000000_Gangwondo_Chuncheon'], 
+      ['태백시', '4219000000_Gangwondo_Taebaek'], 
+      ['평창군', '4276000000_Gangwondo_Pyeongchang'], 
+      ['홍천군', '4272000000_Gangwondo_Hongcheon'], 
+      ['화천군', '4279000000_Gangwondo_Hwacheon'], 
+      ['횡성군', '4273000000_Gangwondo_Hoengseong']
     ]
 
   var inChungcheongbukdo = [
