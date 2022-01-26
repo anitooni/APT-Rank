@@ -100,9 +100,13 @@
     }
     $('#sido').html(option)
 
-    var lastRegion = localStorage.getItem('lastRegion')
-    var lastSubRegion = localStorage.getItem('lastSubRegion')
-    var lastMonth = localStorage.getItem('lastMonth')    
+    //var lastRegion = localStorage.getItem('lastRegion')
+    //var lastSubRegion = localStorage.getItem('lastSubRegion')
+    //var lastMonth = localStorage.getItem('lastMonth')
+
+    var lastRegion = sessionStorage.getItem('lastRegion')
+    var lastSubRegion = sessionStorage.getItem('lastSubRegion')
+    var lastMonth = sessionStorage.getItem('lastMonth')    
 
     if(lastRegion != null){
       selectedRegion = lastRegion
@@ -142,11 +146,13 @@
   });
 
   function saveLocalStorage(){
-    localStorage.setItem('lastRegion', selectedRegion)
-    localStorage.setItem('lastSubRegion', selectedSubRegion)
-    localStorage.setItem('lastMonth', selectedMonth)
-
-    console.log(selectedRegion, selectedSubRegion, selectedMonth)
+    //localStorage.setItem('lastRegion', selectedRegion)
+    //localStorage.setItem('lastSubRegion', selectedSubRegion)
+    //localStorage.setItem('lastMonth', selectedMonth)
+    
+    sessionStorage.setItem('lastRegion', selectedRegion)
+    sessionStorage.setItem('lastSubRegion', selectedSubRegion)
+    sessionStorage.setItem('lastMonth', selectedMonth)
   }
 
   function scrollUp(){
@@ -653,6 +659,7 @@
   }
   function showNotice(){
     var titleHtml = "<div class='popupTitle'> 아파트 랭크에서 알려드립니다 </div>";
+    var footerHtml = ""
     var detailHtml = "<div class='notice'> 안녕하세요. 아파트랭크입니다.</div>";
     detailHtml += "<div class='notice'> 종합적인 아파트 정보를 제공하는 서비스가 많음에도 불구하고, 우리 지역의 진짜 입지 좋은 곳을 한 번에 판단하기가 너무 어려워 아파트 랭크 서비스를 만들었습니다. </div>";
     detailHtml += "<div class='notice'> 개개인이 생각하는 아파트의 중요한 요소들이 있겠지만, AI를 통해 많은 정보를 종합하여 선정된 순서를 보여드리고자 했으니 유용하게 사용하시기 바래봅니다! </div>";
@@ -670,13 +677,18 @@
     detailHtml += "<li><div class='notice'> 학군 정보는 교육통계서비스 정보를 기반으로 산정됩니다.</div></li>";
     detailHtml += "<li><div class='notice'> 지역구 정보는 공공데이터포탈 정보를 기반으로 산정됩니다.</div></li>";
     detailHtml += "<li><div class='notice'> 모든 정보는 월 1회 업데이트 예정이며, 각 기반 정보의 업데이트 시점에 따라 변동 가능성이 있습니다.</div></li>";
-    detailHtml += "<li><div class='notice'> 문의사항, 오류수정, 개선제안은 이메일을 통해 요청해 주세요.</div></li>";
-    detailHtml += "<li><div class='notice'> <a href='mailto:aptranking@gmail.com'>aptranking@gmail.com</a></div></li>";
+    detailHtml += "<li><div class='notice'> 문의사항, 오류수정, 개선제안은 이메일을 통해 요청해 주세요.</div></li>";    
     detailHtml += "</ul>";
+
+    footerHtml += "<div class='modal-footer'>"
+    footerHtml += "<div></div>"    
+    footerHtml += "<div><a href='mailto:aptranking@gmail.com'><button type='button' class='goApt' onClick='mailto:aptranking@gmail.com'>개발자에게 메일 보내기</button></a></div>"                  
+    footerHtml += "<div></div>"
+    footerHtml += "</div>"
     
     $('#exampleModalLabel').html(titleHtml);
     $('#aptDetail').html(detailHtml);
-    $('#footer').html("");
+    $('#footer').html(footerHtml);
   }
   
           
