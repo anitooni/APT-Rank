@@ -232,6 +232,7 @@
 
   function updateMonth(){    
     selectedMonth = $("#month option:selected").val()
+    console.log(selectedMonth)
     updateTable(selectedMonth, selectedRegion)
     regionName = $("#sido option:selected").text()
   }
