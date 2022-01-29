@@ -120,11 +120,14 @@
 
     $("#sido").val(selectedRegion).prop("selected", true);
     regionName = $("#sido option:selected").val();
-
-    updateMonth()
+    
     optionChange(selectedSubRegion)
-    //updateRegionTable(selectedMonth)
-
+    if(selectedRegion == "Korea"){
+      updateRegionTable(selectedMonth)
+    }
+    else{
+      updateTable(selectedMonth, selectedSubRegion)
+    }
     //var regionSubName = $("#gungu option:selected").val()    
 
     month = selectedMonth
