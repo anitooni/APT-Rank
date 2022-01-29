@@ -120,15 +120,12 @@
 
     $("#sido").val(selectedRegion).prop("selected", true);
     regionName = $("#sido option:selected").val();
+
+    $('#dataList').html("");
     
     optionChange(selectedSubRegion)
-    if(selectedRegion == "Korea"){
-      updateRegionTable(selectedMonth)
-    }
-    else{
-      updateTable(selectedMonth, selectedSubRegion)
-    }
-    //var regionSubName = $("#gungu option:selected").val()    
+
+    //var regionSubName = $("#gungu option:selected").val()
 
     month = selectedMonth
     //updateTable(month, regionSubName)
@@ -163,7 +160,7 @@
     $( 'html, body' ).animate( { scrollTop : 0 }, 50 );
   }
 
-  function optionChange(subRegion){
+  function optionChange(subRegion){    
     selectedSubRegion = subRegion
     regionName = $("#sido option:selected").val();
     selectedRegion = regionName
@@ -242,8 +239,7 @@
   }
 
   function updateMonth(){    
-    selectedMonth = $("#month option:selected").val()
-    console.log(selectedMonth)
+    selectedMonth = $("#month option:selected").val()    
     updateTable(selectedMonth, selectedSubRegion)
     regionName = $("#sido option:selected").text()
   }
@@ -303,7 +299,6 @@
 
           addon_html += "<div class='apt_name'>" + aptName;
 
-          console.log(aptData.data[i]["준공년차"])
           if(aptData.data[i]["준공년차"] >= 30){
             addon_html += "<span class='aptYear'> (30년차 이상) </span>";
           }
